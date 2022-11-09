@@ -1,0 +1,24 @@
+{
+  "name": "emids_server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "nodemon app.js",
+    "start": "node app.js"
+  },
+  "author": "Mohit Aswani",
+  "license": "ISC",
+  "dependencies": {
+    "amazon-textract-response-parser": "^0.2.0",
+    "aws-sdk": "^2.1250.0",
+    "bcryptjs": "^2.4.3",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "express-validator": "^6.14.2",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^6.7.2",
+    "multer": "*",
+    "socket.io": "^4.5.3"
+  }
+}
