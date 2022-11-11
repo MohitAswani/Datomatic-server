@@ -28,8 +28,6 @@ app.use((req, res, next) => {
 app.use("/auth", authRoutes);
 app.use("/scan", scanRoutes);
 
-detectText("./images/pres2.png");
-
 // ERROR HANDLING
 app.use((error, req, res, next) => {
   console.log(error);
@@ -46,7 +44,7 @@ mongoose
   .connect(process.env.MONGO_DB_CONNECTION_URI)
   .then((result) => {
     console.log("Connected");
-    const server = app.listen(5000);
+    const server = app.listen(process.env.PORT);
   })
   .catch((err) => {
     console.log(err);

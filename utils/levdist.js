@@ -56,3 +56,9 @@ var levDist = function (r, a) {
     }
   return t[f][n];
 };
+
+
+modArr = limitArr.sort(function(a, b){
+  levDist(a, searchy)
+  levDist(b, searchy)
+});
