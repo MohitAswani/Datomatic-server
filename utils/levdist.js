@@ -57,8 +57,13 @@ var levDist = function (r, a) {
   return t[f][n];
 };
 
+const getClosestMatch = (item, itemArray, searchWord) => {
+  const modArr = itemArray.sort(function (a, b) {
+    levDist(a, searchWord);
+    levDist(b, searchWord);
+  });
 
-modArr = limitArr.sort(function(a, b){
-  levDist(a, searchy)
-  levDist(b, searchy)
-});
+  return modArr[0];
+};
+
+exports.getClosestMatch=getClosestMatch;

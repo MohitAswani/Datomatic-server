@@ -2,6 +2,7 @@
   "name": "emids_server",
   "version": "1.0.0",
   "description": "",
+  "type": "commonjs",
   "main": "app.js",
   "scripts": {
     "test": "nodemon app.js",
@@ -10,6 +11,7 @@
   "author": "Mohit Aswani",
   "license": "ISC",
   "dependencies": {
+    "@aws-sdk/client-textract": "^3.209.0",
     "amazon-textract-response-parser": "^0.2.0",
     "aws-sdk": "^2.1250.0",
     "bcryptjs": "^2.4.3",
@@ -19,6 +21,7 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.7.2",
     "multer": "*",
+    "node-fetch": "2.0",
     "socket.io": "^4.5.3"
   }
 }

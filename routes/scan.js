@@ -5,11 +5,8 @@ const scanController = require("../controllers/scan");
 
 const router = express.Router();
 
-router.post("/scan", [
-    body("imagePath")
-        .trim()
-        .not()
-        .isEmpty()
-], scanController.getScan);
+router.post("/scan", scanController.getScan);
+
+router.post("/scan-med", scanController.getMedScan);
 
 module.exports = router;

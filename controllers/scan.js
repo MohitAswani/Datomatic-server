@@ -1,15 +1,84 @@
 const { validationResult } = require("express-validator");
+const { detectText, detectMedicineText } = require("../utils/textract");
+const fetch = require("node-fetch");
 
-exports.getScan = (req, res, next) => {
+exports.getScan = async (req, res, next) => {
+  try {
+    const { image } = req.body;
 
-    try{
+    const resWord = await detectText(image);
 
+    return res.status(200).json({
+      message: "success",
+      data: resWord,
+    });
+  } catch (err) {
+    if (!err.statusCode) {
+      err.statusCode = 500;
     }
-    catch(err){
-        if(!err.statusCode){
-            err.statusCode = 500;
-        }
-        next(err);
-    }
+    next(err);
+  }
 };
 
+exports.getMedScan = async (req, res, next) => {
+  try {
+    const { image } = req.body;
+
+    let resWord = await detectMedicineText(image);
+
+    console.log(resWord[0]);
+
+    const suggestedNameRes = await fetch(
+      "https://rxnav.nlm.nih.gov/REST/spellingsuggestions.json?name=" +
+        resWord[0]
+    );
+    const suggestedNameJson = await suggestedNameRes.json();
+
+    console.log(suggestedNameJson.suggestionGroup.suggestionList.suggestion);
+
+    if (
+      suggestedNameJson.suggestionGroup.suggestionList.suggestion &&
+      suggestedNameJson.suggestionGroup.suggestionList.suggestion.length > 0
+    ) {
+      resWord[0] = suggestedNameJson.suggestionGroup.suggestionList
+        .suggestion[0]
+        ? suggestedNameJson.suggestionGroup.suggestionList.suggestion[0]
+        : resWord[0];
+    }
+
+    const suggestedDrugCodeRes = await fetch(
+      "https://rxnav.nlm.nih.gov/REST/rxcui.json?caller=RxNav&name=" +
+        resWord[0]
+    );
+    const suggestedDrugCodeJson = await suggestedDrugCodeRes.json();
+
+    if (
+      suggestedDrugCodeJson.idGroup.rxnormId &&
+      suggestedDrugCodeJson.idGroup.rxnormId.length > 0
+    ) {
+      resWord = [suggestedDrugCodeJson.idGroup.rxnormId[0], ...resWord];
+    }
+    else
+    {
+      resWord = ["", ...resWord];
+    }
+
+    const medicineData = {
+      RxNORMcode: resWord[0] ? resWord[0] : "",
+      medicationName: resWord[1] ? resWord[1] : "",
+      dosage: resWord[2] ? resWord[2] : "",
+      route: resWord[3] ? resWord[3] : "",
+      frequency: resWord[4] ? resWord[4] : "",
+    };
+
+    return res.status(200).json({
+      message: "success",
+      data: medicineData,
+    });
+  } catch (err) {
+    if (!err.statusCode) {
+      err.statusCode = 500;
+    }
+    next(err);
+  }
+};

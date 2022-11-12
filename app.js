@@ -3,7 +3,7 @@ const path = require("path");
 require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
-const { detectText } = require("./utils/textract");
+const {getClosesMatch} = require("./utils/levdist");
 
 const app = express();
 
@@ -26,7 +26,7 @@ app.use((req, res, next) => {
 
 // ADD ROUTES
 app.use("/auth", authRoutes);
-app.use("/scan", scanRoutes);
+app.use(scanRoutes);
 
 // ERROR HANDLING
 app.use((error, req, res, next) => {
@@ -39,8 +39,6 @@ app.use((error, req, res, next) => {
     data: data,
   });
 });
-
-
 
 mongoose
   .connect(process.env.MONGO_DB_CONNECTION_URI)
