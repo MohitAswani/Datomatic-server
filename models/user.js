@@ -2,7 +2,11 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
-    username:{
+    username: {
+        type: String,
+        required: true
+    },
+    phoneNumber:{
         type:String,
         required:true
     },
@@ -13,6 +17,16 @@ const userSchema = new Schema({
     isAdmin:{
         type:Boolean,
         required:true
+    },
+    userType:{
+        type:String,
+        required:true
+    },
+    hospitalName:{
+        type:String,
+    },
+    pharmacyName:{
+        type:String,
     }
 });
 

@@ -10,6 +10,7 @@ const app = express();
 // ROUTE IMPORTS
 const authRoutes = require("./routes/auth");
 const scanRoutes = require("./routes/scan");
+const dataRoutes = require("./routes/data");
 
 app.use(express.json());
 
@@ -26,6 +27,7 @@ app.use((req, res, next) => {
 
 // ADD ROUTES
 app.use("/auth", authRoutes);
+app.use("/data", dataRoutes);
 app.use(scanRoutes);
 
 // ERROR HANDLING

@@ -12,16 +12,16 @@ const router = express.Router();
 router.put(
   "/signup",
   [
-    body("username")
+    body("phoneNumber")
       .trim()
-      .isLength({ min: 5 })
-      .withMessage("Please enter a valid username of atleast 5 characters")
+      .isMobilePhone("en-IN")
+      .withMessage("Please enter a valid phone number")
       .custom(async (value, { req }) => {
         try {
-          const user = await User.findOne({ username: value });
+          const user = await User.findOne({ phoneNumber: value });
 
           if (user) {
-            return Promise.reject("Username already exists");
+            return Promise.reject("User already exists");
           }
 
           return Promise.resolve();
@@ -65,7 +65,7 @@ router.put(
 router.post(
   "/login",
   [
-    body("username").trim().not().isEmpty(),
+    body("phoneNumber").trim().not().isEmpty(),
     body("password").trim().not().isEmpty(),
   ],
   authController.login

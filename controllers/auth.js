@@ -8,8 +8,6 @@ exports.signup = async (req, res, next) => {
   try {
     const errors = validationResult(req);
 
-    console.log(req.body);
-
     if (!errors.isEmpty()) {
       const error = new Error("Validation failed");
       error.statusCode = 422;
@@ -18,14 +16,28 @@ exports.signup = async (req, res, next) => {
     }
 
     const username = req.body.username;
+    const phoneNumber = req.body.phoneNumber;
     const password = req.body.password;
+    const userType = req.body.userType;
+    const hospitalName = req.body.hospitalName;
+    const pharmacyName = req.body.pharmacyName;
     const hashedPassword = await bcrypt.hash(password, 12);
 
     const user = new User({
       username: username,
+      phoneNumber: phoneNumber,
       password: hashedPassword,
       isAdmin: false,
+      userType: userType,
     });
+
+    if (userType === "doctor") {
+      user.hospitalName = hospitalName;
+    }
+
+    if (userType === "pharmacy") {
+      user.pharmacyName = pharmacyName;
+    }
 
     const result = await user.save();
 
@@ -43,16 +55,16 @@ exports.login = async (req, res, next) => {
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
-      const error = new Error("Enter non-empty username and password");
+      const error = new Error("Enter non-empty phone number and password");
       error.statusCode = 422;
       error.data = errors.array();
       throw error;
     }
 
-    const username = req.body.username;
+    const phoneNumber = req.body.phoneNumber;
     const password = req.body.password;
 
-    const user = await User.findOne({ username: username });
+    const user = await User.findOne({ phoneNumber: phoneNumber });
 
     if (!user) {
       const error = new Error("User not found");
@@ -70,14 +82,14 @@ exports.login = async (req, res, next) => {
 
     const token = jwt.sign(
       {
-        username: user.username,
+        phoneNumber: user.phoneNumber,
         userId: user._id.toString(),
       },
       process.env.JWT_SECRET_KEY,
-      { expiresIn: "1h" }
+      { expiresIn: "5h" }
     );
 
-    res.status(200).json({ token: token, userId: user._id.toString() });
+    res.status(200).json({ token: token, userId: user._id.toString(), userType: user.userType });
   } catch (err) {
     if (!err.statusCode) {
       err.statusCode = 500;
