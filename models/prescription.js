@@ -27,25 +27,20 @@ const prescriptionSchema = new Schema(
         },
         medicationName: {
           type: String,
-          required: true,
         },
         dosage: {
-          type: Number,
-          required: true,
+          type: String,
         },
         route: {
           type: String,
-          required: true,
         },
         frequency: {
-          type: Number,
-          required: true,
+          type: String,
         },
       },
     ],
     remarks: {
       type: String,
-      required: true,
     },
     doctorId: {
       type: Schema.Types.ObjectId,
