@@ -116,7 +116,7 @@ exports.getDoctorPrescriptions = async (req, res, next) => {
 
       return {
         _id: prescription._id,
-        name: user.username,
+        name: prescription.name,
         createdAt:
           prescriptionDate.getDate() +
           "/" +
