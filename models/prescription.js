@@ -23,7 +23,6 @@ const prescriptionSchema = new Schema(
       {
         RxNORMcode: {
           type: String,
-          required: true,
         },
         medicationName: {
           type: String,

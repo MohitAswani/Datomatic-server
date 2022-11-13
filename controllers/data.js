@@ -76,7 +76,12 @@ exports.getPatientPrescriptions = async (req, res, next) => {
       return {
         _id: prescription._id,
         name: prescription.doctorId.username,
-        createdAt: prescriptionDate.getDate()+"/"+prescriptionDate.getMonth()+"/"+prescriptionDate.getFullYear(),
+        createdAt:
+          prescriptionDate.getDate() +
+          "/" +
+          prescriptionDate.getMonth() +
+          "/" +
+          prescriptionDate.getFullYear(),
       };
     });
 
@@ -112,7 +117,12 @@ exports.getDoctorPrescriptions = async (req, res, next) => {
       return {
         _id: prescription._id,
         name: user.username,
-        createdAt: prescriptionDate.getDate()+"/"+prescriptionDate.getMonth()+"/"+prescriptionDate.getFullYear(),
+        createdAt:
+          prescriptionDate.getDate() +
+          "/" +
+          prescriptionDate.getMonth() +
+          "/" +
+          prescriptionDate.getFullYear(),
       };
     });
 
