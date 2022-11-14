@@ -12,6 +12,11 @@ const router = express.Router();
 router.put(
   "/signup",
   [
+    body("name")
+      .trim()
+      .not()
+      .isEmpty()
+      .withMessage("Enter a non-empty name"),
     body("phoneNumber")
       .trim()
       .isMobilePhone("en-IN")
@@ -35,24 +40,15 @@ router.put(
       }),
     body("password")
       .trim()
-      .isString()
-      .isLength({ min: 8, max: 100 })
-      .not()
-      .isLowercase()
-      .not()
-      .isUppercase()
-      .not()
-      .isNumeric()
-      .not()
-      .isAlpha()
+      .isStrongPassword()
       .withMessage(
-        "Password must be of min 8 character with a number, lowercase and uppercase letter"
+        "Password must contain at least 8 characters with at least 1 uppercase, 1 lowercase, 1 number and 1 symbol"
       ),
     body("confirmPassword")
       .trim()
       .custom((value, { req }) => {
         if (value !== req.body.password) {
-          return Promise.reject("Passwords do not match");
+          return Promise.reject("Confirm password does not match password");
         }
 
         return Promise.resolve();
@@ -65,8 +61,12 @@ router.put(
 router.post(
   "/login",
   [
-    body("phoneNumber").trim().not().isEmpty(),
-    body("password").trim().not().isEmpty(),
+    body("phoneNumber")
+      .trim()
+      .not()
+      .isEmpty()
+      .withMessage("Enter a phone number"),
+    body("password").trim().not().isEmpty().withMessage("Enter a password"),
   ],
   authController.login
 );

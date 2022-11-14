@@ -15,7 +15,7 @@ exports.signup = async (req, res, next) => {
       throw error;
     }
 
-    const username = req.body.username;
+    const name = req.body.name;
     const phoneNumber = req.body.phoneNumber;
     const password = req.body.password;
     const userType = req.body.userType;
@@ -24,7 +24,7 @@ exports.signup = async (req, res, next) => {
     const hashedPassword = await bcrypt.hash(password, 12);
 
     const user = new User({
-      username: username,
+      name: name,
       phoneNumber: phoneNumber,
       password: hashedPassword,
       isAdmin: false,

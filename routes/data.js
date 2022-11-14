@@ -21,8 +21,8 @@ router.post(
   dataController.savePrescription
 );
 
-// GET /data/username
-router.get("/username", isAuth, dataController.getUsername);
+// GET /data/name
+router.get("/name", isAuth, dataController.getName);
 
 // GET /data/patient-prescriptions
 router.get("/patient-prescriptions", isAuth, dataController.getPatientPrescriptions);

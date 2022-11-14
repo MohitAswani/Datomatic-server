@@ -1,6 +1,7 @@
 const { validationResult } = require("express-validator");
 const { detectText, detectMedicineText } = require("../utils/textract");
 const fetch = require("node-fetch");
+const axios = require('axios').default;
 
 exports.getScan = async (req, res, next) => {
   try {
@@ -26,15 +27,10 @@ exports.getMedScan = async (req, res, next) => {
 
     let resWord = await detectMedicineText(image);
 
-    console.log(resWord[0]);
+    const suggestedNameRes = await axios("https://rxnav.nlm.nih.gov/REST/spellingsuggestions.json?name=" +
+    resWord[0]);
 
-    const suggestedNameRes = await fetch(
-      "https://rxnav.nlm.nih.gov/REST/spellingsuggestions.json?name=" +
-        resWord[0]
-    );
     const suggestedNameJson = await suggestedNameRes.json();
-
-    console.log(suggestedNameJson.suggestionGroup.suggestionList.suggestion);
 
     if (
       suggestedNameJson.suggestionGroup.suggestionList.suggestion &&

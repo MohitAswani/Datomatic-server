@@ -37,7 +37,7 @@ exports.savePrescription = async (req, res, next) => {
   }
 };
 
-exports.getUsername = async (req, res, next) => {
+exports.getName = async (req, res, next) => {
   try {
     const user = await User.findById(req.userId);
     if (!user) {
@@ -46,7 +46,7 @@ exports.getUsername = async (req, res, next) => {
       throw error;
     }
 
-    res.status(200).json({ message: "User found", username: user.username });
+    res.status(200).json({ message: "User found", name: user.name });
   } catch (err) {
     if (!err.statusCode) {
       err.statusCode = 500;
@@ -75,7 +75,7 @@ exports.getPatientPrescriptions = async (req, res, next) => {
 
       return {
         _id: prescription._id,
-        name: prescription.doctorId.username,
+        name: prescription.doctorId.name,
         createdAt:
           prescriptionDate.getDate() +
           "/" +
