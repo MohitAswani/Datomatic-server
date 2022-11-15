@@ -1,6 +1,5 @@
 const { validationResult } = require("express-validator");
 const { detectText, detectMedicineText } = require("../utils/textract");
-const fetch = require("node-fetch");
 const axios = require('axios').default;
 
 exports.getScan = async (req, res, next) => {
