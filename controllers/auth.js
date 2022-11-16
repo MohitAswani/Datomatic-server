@@ -69,6 +69,7 @@ exports.login = async (req, res, next) => {
     if (!user) {
       const error = new Error("User not found");
       error.statusCode = 401;
+      error.data = [{ param: "phoneNumber", msg: "User not found" }];
       throw error;
     }
 
@@ -77,6 +78,7 @@ exports.login = async (req, res, next) => {
     if (!isEqual) {
       const error = new Error("Wrong password");
       error.statusCode = 401;
+      error.data = [{ param: "password", msg: "Wrong password" }];
       throw error;
     }
 
