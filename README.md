@@ -26,4 +26,4 @@
 
 * To run the app run : ```npm run dev```
 
-* Then the website can be accessed using : ```http://localhost:5173/```.
+* Then the website can be accessed using : ```http://localhost:5173/```
