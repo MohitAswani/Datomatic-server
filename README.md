@@ -1,4 +1,4 @@
-# EMIDS-server
+# Datomatic-server
 
 * Live website available at : ```https://datomatic.netlify.app/```
 
