@@ -3,7 +3,7 @@ const path = require("path");
 require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
-const {getClosesMatch} = require("./utils/levdist");
+const { getClosesMatch } = require("./utils/levdist");
 
 const app = express();
 
@@ -26,6 +26,9 @@ app.use((req, res, next) => {
 });
 
 // ADD ROUTES
+app.get("/", (req, res) => {
+  return res.send("Server working!");
+});
 app.use("/auth", authRoutes);
 app.use("/data", dataRoutes);
 app.use(scanRoutes);
@@ -46,7 +49,7 @@ mongoose
   .connect(process.env.MONGO_DB_CONNECTION_URI)
   .then((result) => {
     console.log("Connected");
-    console.log("Listening on port ",process.env.PORT);
+    console.log("Listening on port ", process.env.PORT);
     const server = app.listen(process.env.PORT);
   })
   .catch((err) => {
