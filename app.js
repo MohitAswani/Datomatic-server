@@ -42,6 +42,8 @@ app.use((error, req, res, next) => {
   });
 });
 
+console.log(process.env.MONGO_DB_CONNECTION_URI);
+
 mongoose
   .connect(process.env.MONGO_DB_CONNECTION_URI)
   .then((result) => {
