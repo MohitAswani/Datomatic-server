@@ -29,7 +29,7 @@ exports.getMedScan = async (req, res, next) => {
     const suggestedNameRes = await axios("https://rxnav.nlm.nih.gov/REST/spellingsuggestions.json?name=" +
     resWord[0]);
 
-    const suggestedNameJson = await suggestedNameRes.data;
+    const suggestedNameJson = suggestedNameRes.data;
 
     if (
       suggestedNameJson.suggestionGroup.suggestionList.suggestion &&
@@ -41,11 +41,11 @@ exports.getMedScan = async (req, res, next) => {
         : resWord[0];
     }
 
-    const suggestedDrugCodeRes = await fetch(
+    const suggestedDrugCodeRes = await axios(
       "https://rxnav.nlm.nih.gov/REST/rxcui.json?caller=RxNav&name=" +
         resWord[0]
     );
-    const suggestedDrugCodeJson = await suggestedDrugCodeRes.json();
+    const suggestedDrugCodeJson = suggestedDrugCodeRes.data;
 
     if (
       suggestedDrugCodeJson.idGroup.rxnormId &&
