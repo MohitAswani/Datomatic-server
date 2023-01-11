@@ -29,7 +29,7 @@ exports.getMedScan = async (req, res, next) => {
     const suggestedNameRes = await axios("https://rxnav.nlm.nih.gov/REST/spellingsuggestions.json?name=" +
     resWord[0]);
 
-    const suggestedNameJson = await suggestedNameRes.json();
+    const suggestedNameJson = await suggestedNameRes.data;
 
     if (
       suggestedNameJson.suggestionGroup.suggestionList.suggestion &&
